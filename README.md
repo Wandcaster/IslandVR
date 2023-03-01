@@ -9,3 +9,7 @@ Simple VR game which you grow plants using spells.</br>
 [Grass](https://assetstore.unity.com/packages/vfx/shaders/brute-force-grass-shader-192388)</br>
 [Outline](https://assetstore.unity.com/packages/tools/particles-effects/quick-outline-115488)</br>
 [Trees](https://opengameart.org/content/low-poly-nature-pack-1)
+## Configuration 
+Set binding:</br>
+1."Gesture" to A button </br>
+2."Force" to left trigger
