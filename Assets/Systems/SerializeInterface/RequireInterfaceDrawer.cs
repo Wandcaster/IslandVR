@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
-
+#if UNITY_EDITOR
 /// <summary>
 /// Drawer for the RequireInterface attribute.
 /// </summary>
@@ -46,3 +46,4 @@ public class RequireInterfaceDrawer : PropertyDrawer
         }
     }
 }
+#endif  

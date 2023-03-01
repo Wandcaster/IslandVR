@@ -55,7 +55,7 @@
       "requirement": "mandatory"
     },
     {
-      "name": "/actions/default/in/SpellActive",
+      "name": "/actions/default/in/Force",
       "type": "vector1",
       "requirement": "mandatory"
     },

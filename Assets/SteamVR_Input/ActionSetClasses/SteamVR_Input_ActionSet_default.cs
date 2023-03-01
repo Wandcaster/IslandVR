@@ -113,11 +113,11 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Single SpellActive
+        public virtual SteamVR_Action_Single Force
         {
             get
             {
-                return SteamVR_Actions.default_SpellActive;
+                return SteamVR_Actions.default_Force;
             }
         }
         
