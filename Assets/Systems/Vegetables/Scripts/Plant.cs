@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Valve.VR.InteractionSystem;
 
 public class Plant : MonoBehaviour
@@ -23,8 +24,9 @@ public class Plant : MonoBehaviour
     [SerializeField]
     [Range(0, 1)]
     float waterToGrowTreshold=0.5F;
-    private bool canPickUp = false;
+    public bool canPickUp = false;
     public PlantContainerController root;
+    public Rigidbody rigid;
 
     private Material material;
     private IgnoreHovering ignoreHovering;
@@ -36,6 +38,7 @@ public class Plant : MonoBehaviour
         else ignoreHovering= GetComponent<IgnoreHovering>();
         StartCoroutine(CheckStatus());
         StartCoroutine(UpdateStatus());
+        rigid=GetComponent<Rigidbody>();
     }
     private void ChangeGrowProgress(float value)
     {
@@ -89,5 +92,13 @@ public class Plant : MonoBehaviour
         root.spawnSpots.Remove(temp);
         temp.plant = null;
         root.spawnSpots.Add(temp);
+    }
+    public void DeatachFromRoot()
+    {
+        RemoveFromRoot();
+        isGrowing = false;
+        SetAttachedToRoot(false);
+        ChangeLayer("Default");
+        StopAllCoroutines();
     }
 }

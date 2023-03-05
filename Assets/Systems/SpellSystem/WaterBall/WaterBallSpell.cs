@@ -9,7 +9,7 @@ public class WaterBallSpell : MonoBehaviour,ISpell
     [SerializeField]
     private GameObject prefab;
     [SerializeField]
-    string tagName;
+    string spellTargetTag;
     [SerializeField]
     Rigidbody waterBall;
     [SerializeField]
@@ -18,10 +18,10 @@ public class WaterBallSpell : MonoBehaviour,ISpell
     [Header("Levitation settings")]
     public float breakingMultiply; // Adjust this value to control the average upward force
     public float handMultiplier;
-    [SerializeField] private SteamVR_Action_Single spellForce;
+    [SerializeField] private SteamVR_Action_Single moveForce;
     [SerializeField] private SteamVR_Action_Single waterControl;
 
-    Transform attachTransform;
+    Transform sourceTransform;
     ParticleSystem.EmissionModule emission;
     ParticleSystem.ShapeModule shape;
     float startRadius;
@@ -33,15 +33,15 @@ public class WaterBallSpell : MonoBehaviour,ISpell
     {
         player = Player.instance;
     }
-    public void Cast(Transform attachTransform)
+    public void Cast(Transform sourceTransform)
     {
-        this.attachTransform = attachTransform;
+        this.sourceTransform = sourceTransform;
         RaycastHit hit;
-        Ray ray = new Ray(attachTransform.position, attachTransform.forward);
+        Ray ray = new Ray(sourceTransform.position, sourceTransform.forward);
         Physics.Raycast(ray,out hit);
         Debug.DrawRay(ray.origin,ray.direction,Color.red,1000);
         if (waterBall != null) Destroy(waterBall.gameObject);
-        if (hit.transform==null||!hit.transform.CompareTag(tagName)) return;
+        if (hit.transform==null||!hit.transform.CompareTag(spellTargetTag)) return;
         waterBall=Instantiate(prefab, hit.collider.bounds.center,Quaternion.identity).GetComponent<Rigidbody>();
         emission = waterBall.GetComponent<ParticleSystem>().emission;
         emission.rateOverTime = 0;
@@ -75,8 +75,8 @@ public class WaterBallSpell : MonoBehaviour,ISpell
 
         Vector3 forceUp = Physics.gravity;
         Vector3 rateOfChangePosition = RateOfChangePosition();
-        Vector3 forceFromMovment = rateOfChangePosition * spellForce.axis * handMultiplier;
-        if (spellForce.axis > 0.5F)
+        Vector3 forceFromMovment = rateOfChangePosition * moveForce.axis * handMultiplier;
+        if (moveForce.axis > 0.5F)
         {
             waterBall.AddForce(forceFromMovment- forceUp);
         }
@@ -96,13 +96,13 @@ public class WaterBallSpell : MonoBehaviour,ISpell
     public Vector3 RateOfChangePosition()
     {
         previousPosition = currentPosition;
-        currentPosition = attachTransform.position;
+        currentPosition = sourceTransform.position;
         if (previousPlayerPos != player.transform.position||previousPlayerRotation!=player.transform.rotation) 
         {
             previousPlayerPos = player.transform.position;
             previousPlayerRotation = player.transform.rotation;
-            previousPosition = attachTransform.position;
-            currentPosition = attachTransform.position;
+            previousPosition = sourceTransform.position;
+            currentPosition = sourceTransform.position;
         }
             return (currentPosition - previousPosition) / Time.deltaTime;
     }

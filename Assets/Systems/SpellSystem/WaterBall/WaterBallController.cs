@@ -24,7 +24,6 @@ public class WaterBallController : MonoBehaviour
                 rotation3D = Quaternion.LookRotation(events[0].normal).eulerAngles
 
         };
-            Debug.Log(events[0].normal);
             splash.Emit(emitParams, 1);
         }
     }

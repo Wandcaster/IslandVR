@@ -19,7 +19,8 @@ public class SlopeBoatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentRotation = toggle.localEulerAngles.z;
+        if (currentRotation == toggle.localEulerAngles.x) return;
+        currentRotation = toggle.localEulerAngles.x;
         if (currentRotation > 45) currentRotation -= 360;
         if (Between(currentRotation, -0.1F, 0.1F)) currentRotation = 0;
         Vector3 newRotation=new Vector3(Mathf.LerpAngle(transform.localRotation.eulerAngles.x,currentRotation,rotationStrengh), transform.localRotation.eulerAngles.y,0);

@@ -14,9 +14,10 @@ public class BoatRotationController : MonoBehaviour
 
     void Update()
     {
+        if (lastRotation == circle.transform.localRotation) return;
         float angle =Quaternion.Angle(circle.transform.localRotation, lastRotation);
         if(circle.transform.localRotation.eulerAngles.z < lastRotation.eulerAngles.z) angle= -angle;
-        transform.Rotate(Vector3.up, angle*rotationStrengh);
+        transform.RotateAround(circle.position,Vector3.up, angle*rotationStrengh);
         lastRotation = circle.transform.localRotation;
     }
 }

@@ -11,19 +11,17 @@ public class BoatAccelerationController : MonoBehaviour
     ForceMode forceMode;
     [SerializeField]
     float acceleration;
-    float currentAcceleration;
+    public float currentAcceleration;
     void Start()
     {
         rigid= GetComponent<Rigidbody>();
     }
 
-
-    // Update is called once per frame
     void Update()
     {
-        currentAcceleration = toggle.localRotation.eulerAngles.z;
+        currentAcceleration = toggle.localRotation.eulerAngles.x;
         if (currentAcceleration > 45) currentAcceleration -= 360;
-        if (Between(currentAcceleration, -0.1F, 0.1F)) currentAcceleration = 0;
+        if (Between(currentAcceleration, -1F, 1F)) currentAcceleration = 0;
         rigid.AddForce(transform.forward * currentAcceleration*Time.deltaTime*acceleration, forceMode);
     }
     public bool Between(float number, float min, float max)
